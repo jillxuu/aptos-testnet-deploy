@@ -6,29 +6,29 @@ CHECK_ADDRESS="${CHECK_ADDRESS}"
 NAMED_ADDRESSES="${NAMED_ADDRESSES}"
 PRIVATE_KEY="${PRIVATE_KEY}"
 UPGRADE_ALLOWED="${UPGRADE_ALLOWED}"
-DEVNET_URL="https://fullnode.devnet.aptoslabs.com/"
-DEVNET_FAUCET_URL="https://faucet.devnet.aptoslabs.com/"
+testnet_URL="https://fullnode.testnet.aptoslabs.com/"
+testnet_FAUCET_URL="https://faucet.testnet.aptoslabs.com/"
 
 http_code=$(
   curl --write-out '%{http_code}' \
        --silent \
        --output /dev/null \
-       ${DEVNET_URL}v1/accounts/$CHECK_ADDRESS/resource/0x1::code::PackageRegistry
+       ${testnet_URL}v1/accounts/$CHECK_ADDRESS/resource/0x1::code::PackageRegistry
 )
 
 if [ $http_code -eq 404 ] || [ "$UPGRADE_ALLOWED" = "true" ]; then
   nix-shell $ACTION_PATH/shell.nix --command "aptos init \
     --private-key=$PRIVATE_KEY \
-    --network=devnet \
+    --network=testnet \
     --assume-yes"
   nix-shell $ACTION_PATH/shell.nix --command "aptos account fund-with-faucet \
     --account="$CHECK_ADDRESS" \
-    --url="$DEVNET_URL" \
-    --faucet-url="$DEVNET_FAUCET_URL""
+    --url="$testnet_URL" \
+    --faucet-url="$testnet_FAUCET_URL""
   nix-shell $ACTION_PATH/shell.nix --command "aptos move publish \
     --package-dir="$PACKAGE_DIR" \
     --named-addresses="$NAMED_ADDRESSES" \
-    --url="$DEVNET_URL" \
+    --url="$testnet_URL" \
     --assume-yes"
 elif [ $http_code -eq 200 ]; then
   echo "Package is already published at $CHECK_ADDRESS"

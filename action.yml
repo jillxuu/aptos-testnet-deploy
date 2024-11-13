@@ -1,5 +1,5 @@
-name: "Aptos Devnet Autodeploy action"
-description: "Helps keep packages deployed to Aptos devnet"
+name: "Aptos testnet Autodeploy action"
+description: "Helps keep packages deployed to Aptos testnet"
 author: "Brian Li"
 inputs:
   package_dir:
