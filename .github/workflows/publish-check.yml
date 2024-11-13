@@ -11,7 +11,7 @@ on:
     - cron: '* * * * *' # Every minute
 
 jobs:
-  devnet-autodeploy:
+  testnet-autodeploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
       - name: Check and Publish
         uses: ./ # Uses an action in the root of the repository
         with:
-          package_dir: example/aptos-devnet-autodeploy
+          package_dir: example/aptos-testnet-autodeploy
           check_address: "0x3cb93ebcabdb73a76c23df00c3176a14efe64b948ca4b319f88561068e77df2d"
           named_addresses: module_addr=0x3cb93ebcabdb73a76c23df00c3176a14efe64b948ca4b319f88561068e77df2d
           private_key: ${{ secrets.PRIVATE_KEY }}
